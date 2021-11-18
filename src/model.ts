@@ -45,9 +45,16 @@ export class TextGrid {
 			else {
 				let fragment = word;
 				while(fragment.length > this.linewidth) { 
-					let head = fragment.slice(0, this.linewidth-1) + "-";
-					lines.push(head);
-					fragment = fragment.slice(this.linewidth-1);
+					if(this.linewidth == 1) {
+						// edge case in which adding - will consume the entire line, causing while loop not to terminate
+						lines.push(fragment.slice(0, 1));
+						fragment = fragment.slice(1);
+					}
+					else {
+						let head = fragment.slice(0, this.linewidth-1) + "-";
+						lines.push(head);
+						fragment = fragment.slice(this.linewidth-1);
+					}
 				}
 				lines.push(fragment);
 			}
@@ -55,8 +62,8 @@ export class TextGrid {
 		this.lines = lines;
 		this.height = lines.length + 1;
 
-		this.grid = new Grid(this.width, this.height);
-		for(let i = 0; i < this.lines.length-1; i++) {
+		this.grid = new Grid(this.height, this.width);
+		for(let i = 0; i < this.lines.length; i++) {
 			for(let j = 0; j < this.lines[i].length; j++) {
 				this.grid.set(i, j, this.lines[i][j]);
 			}
