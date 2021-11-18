@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+	<head>
+		<meta name="viewport" content= "width=device-width, initial-scale=1.0">
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="styles.css">
+   	</head>
+	<body>
+		<div class="container">
+
+			<h1 id="hw">Puzzlecode Generator</h1>
+			<textarea rows=5 cols=20 id="text">abcdefghij klmnopqrst uvwxyz</textarea> <br />
+			<p>Characters per puzzle row: <input id="lw" type="text" value="10"></input> </p>
+			<p>Show answer key: <input type="checkbox" id="showKey" /></p> 
+			<button id="btn">Generate!</button> <br />
+			<svg id="svg" style="width: 1000px; height: 1000px; overflow: visible">
+
+			</svg>
+		</div>
+		<script data-main="setup" src="require.js"></script>
+		<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+		</script>
+	</body>
+
+</html>
