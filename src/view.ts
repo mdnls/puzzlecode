@@ -8,17 +8,19 @@ View responsibilities
 	- Dictionary is unidirectional "label" -> lambda x, y: line-between-(x,y) 
 */
 
-export abstract class PuzzleEdge {
+export class PuzzleEdge {
 	readonly cnf: COORDINATES;
 	readonly vc: number;
 	readonly vr: number;
 	readonly dir: string; 
 	readonly letter: string;
+	readonly edge: [number, number][];
 	constructor(cnf: COORDINATES, vr: number, vc: number, dir: string) {
 		this.cnf = cnf;
 		this.vr = vr;
 		this.vc = vc;
 		this.dir = dir; 
+		this.edge = [[0, 0], [1, 0]];
 	}
 	public bezier_coordinates(): [number, number][] {
 		/*
@@ -34,7 +36,7 @@ export abstract class PuzzleEdge {
 		  |
 		1 -
 		*/
-		throw Error("Subclasses must implement bezier_coordinates().");
+		return this.edge;
 	}
 
 	public absolute_coordinates(): [number, number][] {
@@ -82,18 +84,369 @@ export class LetterEdge extends PuzzleEdge {
 	constructor(cnf: COORDINATES, vc: number, vr: number, dir: string, letter: string) {
 		super(cnf, vc, vr, dir);
 		this.letter = letter.toLowerCase();
-		if(this.letter == " ") {
-			let basic_edge: [number, number][] = [[0.45, 0], [0.3, 0.3], [0.7, 0.3], [0.55, 0]];
-			let random_edge: [number, number][] = [[0, 0], [0.05, 0]];
-			for(let edge of basic_edge) {
-				random_edge.push([edge[0] + Math.random()/10, edge[1] + Math.random()/10]);
-			}
-			random_edge.push([0.95, 0], [1, 0]);
-			this.edge = random_edge;
+		let thisEdge: PuzzleEdge;
+		switch(this.letter) {
+			case 'a':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+					
+				}
+			break;
+			case 'b':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 3);
+					
+				}
+			break;
+			case 'c':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 2);
+					
+				}
+			break;
+			case 'd':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+					
+				}
+			break;
+			case 'e':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case 'f':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 2);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+					
+				}
+			break;
+			case 'g':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+					
+				}
+			break;
+			case 'h':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 2);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case 'i':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case 'j':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 2);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 2);
+					
+				}
+			break;
+			case 'k':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case 'l':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 1);
+					
+				}
+			break;
+			case 'm':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 1);
+					
+				}
+			break;
+			case 'n':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case 'o':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+					
+				}
+			break;
+			case 'p':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 3);
+					
+				}
+			break;
+			case 'q':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 1);
+					
+				}
+			break;
+			case 'r':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case 's':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case 't':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case 'u':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 3);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case 'v':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 2);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 1);
+					
+				}
+			break;
+			case 'w':
+				if(dir == "right") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 2);
+					
+				}
+			break;
+			case 'x':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 3);
+					
+				}
+			break;
+			case 'y':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 3);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new CircleEdge(cnf, vc, vr, dir, 1);
+				}
+			break;
+			case 'z':
+				if(dir == "right") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 2);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleCircleEdge(cnf, vc, vr, dir, 3);
+				}
+			break;
+			case '1':
+				if(dir == "right") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 1);
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case '2':
+				if(dir == "right") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 2);
+
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			case '3':
+				if(dir == "right") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 1);
+					
+				}
+			break;
+			case '4':
+				if(dir == "right") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 2);
+				}
+			break;
+			case '5':
+				if(dir == "right") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 2);
+					
+				}
+			break;
+			case '6':
+				if(dir == "right") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 2);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 2);
+					
+				}
+			break;
+			case '7':
+				if(dir == "right") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 3);
+					
+				}
+			break;
+			case '8':
+				if(dir == "right") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 1);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 3);
+					
+				}
+			break;
+			case '9':
+				if(dir == "right") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 2);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 3);
+					
+				}
+			break;
+			case '0':
+				if(dir == "right") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 0);
+
+				}
+				else if(dir == "down") {
+					thisEdge = new DoubleSquareEdge(cnf, vc, vr, dir, 0);
+					
+				}
+			break;
+			default:
+				thisEdge = new PuzzleEdge(cnf, vc, vr, dir);
 		}
-		else {
-			this.edge = LetterEdge.edges_per_letter[this.letter];
-		}
+
+		this.edge = thisEdge.edge;
 	}
 
 	public bezier_coordinates(): [number, number][] {
@@ -102,6 +455,85 @@ export class LetterEdge extends PuzzleEdge {
 
 }
 
+export class CircleEdge extends PuzzleEdge {
+	readonly edge: [number, number][]
+	constructor(cnf: COORDINATES, vc: number, vr: number, dir: string, configuration: number) {
+		super(cnf, vc, vr, dir);
+		
+		if(configuration == 0) {
+			this.edge = [[0, 0], [0.5, 0], [0.375, 0], [0.375, 0.25], [0.625, 0.25], [0.625, 0], [0.5, 0], [1, 0]];
+		}
+		else if(configuration == 1) {
+			this.edge = [[0, 0], [0.5, 0], [0.375, 0], [0.375, -0.25], [0.625, -0.25], [0.625, 0], [0.5, 0], [1, 0]];
+		}
+		else {
+			throw new Error("Configuration must be one of 0, 1");
+		}
+
+	}
+
+	public bezier_coordinates(): [number, number][] {
+		return this.edge
+	}
+}
+
+export class DoubleCircleEdge extends PuzzleEdge {
+	readonly edge: [number, number][]
+	constructor(cnf: COORDINATES, vc: number, vr: number, dir: string, configuration: number) {
+		super(cnf, vc, vr, dir);
+		
+		if(configuration == 0) {
+			this.edge = [[0, 0], [0.373, 0], [0.23, 0], [0.23, 0.25], [0.48, 0.25], [0.48, 0], [0.355, 0], [0.645, 0], [0.52, 0], [0.52, 0.25], [0.77, 0.25], [0.77, 0], [0.645, 0], [1, 0]]
+		}
+		else if(configuration == 1) {
+			this.edge = [[0, 0], [0.373, 0], [0.23, 0], [0.23, 0.25], [0.48, 0.25], [0.48, 0], [0.355, 0], [0.645, 0], [0.52, 0], [0.52, -0.25], [0.77, -0.25], [0.77, 0], [0.645, 0], [1, 0]]
+		}
+		else if(configuration == 2) {
+			this.edge = [[0, 0], [0.373, 0], [0.23, 0], [0.23, -0.25], [0.48, -0.25], [0.48, 0], [0.355, 0], [0.645, 0], [0.52, 0], [0.52, 0.25], [0.77, 0.25], [0.77, 0], [0.645, 0], [1, 0]]
+		}
+		else if(configuration == 3) { 
+			this.edge = [[0, 0], [0.373, 0], [0.23, 0], [0.23, -0.25], [0.48, -0.25], [0.48, 0], [0.355, 0], [0.645, 0], [0.52, 0], [0.52, -0.25], [0.77, -0.25], [0.77, 0], [0.645, 0], [1, 0]]
+		}
+		else {
+			throw new Error("Configuration must be one of 0, 1, 2, 3");
+		}
+
+	}
+
+	public bezier_coordinates(): [number, number][] {
+		return this.edge
+	}
+
+}
+export class DoubleSquareEdge extends PuzzleEdge {
+	readonly edge: [number, number][]
+	constructor(cnf: COORDINATES, vc: number, vr: number, dir: string, configuration: number) {
+		super(cnf, vc, vr, dir);
+		
+		if(configuration == 0) {
+			this.edge = [[0, 0], [0.2, 0], [0.2, 0.05], [0.15, 0.05], [0.15, 0.25], [0.35, 0.25], [0.35, 0.05], [0.3, 0.05], [0.3, 0], [0.7, 0], [0.7, 0.05], [0.65, 0.05], [0.65, 0.25], [0.85, 0.25], [0.85, 0.05], [0.8, 0.05], [0.8, 0], [1, 0]];
+		}
+		else if(configuration == 1) {
+			this.edge = [[0, 0], [0.2, 0], [0.2, 0.05], [0.15, 0.05], [0.15, 0.25], [0.35, 0.25], [0.35, 0.05], [0.3, 0.05], [0.3, 0], [0.7, 0], [0.7, -0.05], [0.65, -0.05], [0.65, -0.25], [0.85, -0.25], [0.85, -0.05], [0.8, -0.05], [0.8, 0], [1, 0]];
+		}
+		else if(configuration == 2) {
+			this.edge = [[0, 0], [0.2, 0], [0.2, -0.05], [0.15, -0.05], [0.15, -0.25], [0.35, -0.25], [0.35, -0.05], [0.3, -0.05], [0.3, 0], [0.7, 0], [0.7, -0.05], [0.65, -0.05], [0.65, -0.25], [0.85, -0.25], [0.85, -0.05], [0.8, -0.05], [0.8, 0], [1, 0]];
+		}
+		else if(configuration == 3) { 
+			this.edge = [[0, 0], [0.2, 0], [0.2, -0.05], [0.15, -0.05], [0.15, -0.25], [0.35, -0.25], [0.35, -0.05], [0.3, -0.05], [0.3, 0], [0.7, 0], [0.7, -0.05], [0.65, -0.05], [0.65, -0.25], [0.85, -0.25], [0.85, -0.05], [0.8, -0.05], [0.8, 0], [1, 0]];
+		}
+		else {
+			throw new Error("Configuration must be one of 0, 1, 2, 3");
+		}
+		
+
+	}
+
+	public bezier_coordinates(): [number, number][] {
+		return this.edge
+	}
+
+}
 
 export class COORDINATES {
 	public tileSideLength: number;
